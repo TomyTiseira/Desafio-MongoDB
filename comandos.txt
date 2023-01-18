@@ -1,0 +1,125 @@
+// Create the database called ecommerce. 
+use ecommerce
+
+// Create an array of products to insert into the "productos" collection.
+var productsToAdd = [
+  {
+    name: "Escuadra",
+    price: 120,
+    thumbnail: "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png"    
+  },
+  {
+    name: "Calculadora",
+    price: 580,
+    thumbnail: "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-256.png"    
+  },
+  {
+    name: "Globo Terráqueo",
+    price: 900,
+    thumbnail: "https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png"    
+  },
+  {
+    name: "Escuadra 2",
+    price: 1280,
+    thumbnail: "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png"    
+  },
+  {
+    name: "Escuadra 3",
+    price: 1700,
+    thumbnail: "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png"    
+  },
+  {
+    name: "Escuadra 4",
+    price: 2300,
+    thumbnail: "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png"    
+  },
+  {
+    name: "Escuadra 5",
+    price: 2860,
+    thumbnail: "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png"    
+  },
+  {
+    name: "Escuadra 6",
+    price: 3350,
+    thumbnail: "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png"    
+  },
+  {
+    name: "Escuadra 7",
+    price: 4320,
+    thumbnail: "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png"    
+  },
+  {
+    name: "Escuadra 8",
+    price: 4990,
+    thumbnail: "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png"    
+  }
+]
+
+// Create an array of messages to insert into the "mensajes" collection.
+var messagesToAdd = [
+  {
+    email: "a@a.com",
+    message: "Hola",
+    date: "18/1/2023, 01:20:39"
+  },
+  {
+    email: "b@b.com",
+    message: "Hola",
+    date: "18/1/2023, 01:21:39"
+  },
+  {
+    email: "a@a.com",
+    message: "¿Como estás?",
+    date: "18/1/2023, 01:22:39"
+  },
+  {
+    email: "b@b.com",
+    message: "Bien, ¿Vos?",
+    date: "18/1/2023, 01:23:39"
+  },
+  {
+    email: "a@a.com",
+    message: "Bien",
+    date: "18/1/2023, 01:24:39"
+  },
+]
+
+// Insert the arrays of products and messages into your collections.
+db.productos.insertMany(productsToAdd)
+db.mensajes.insertMany(messagesToAdd)
+
+// List all documents in each collection.
+db.productos.find()
+db.mensajes.find()
+
+// Show the quantity the documents stored in each one of them.
+db.productos.countDocuments()
+db.mensajes.countDocuments()
+
+/ Add one product more in the collection of products.
+db.productos.insertOne({
+  name: "Escuada 9",
+  price: 5001,
+  thumbnail: "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png"
+})
+
+// List the products with a price less than 1000 pesos. 
+db.productos.find({price: {$lt: 1000}})
+
+// List the products with a price between 1000 to 3000 pesos. 
+db.productos.find({$and: [{price: {$gte: 1000}}, {price: {$lte: 3000}}]})
+
+// List the products with a price greater than 3000 pesos.
+db.productos.find({price: {$gt: 3000}})
+
+// Get only the name of the third cheapest product.
+db.productos.find({}, {name: 1, _id: 0}).sort({price: 1}).skip(2).limit(1)
+
+// Make an update on all the products, adding the stock field to all of them with a value of 100.
+db.productos.updateMany({}, {$set: {stock: 100}})
+
+// Change the stock to zero of the products with prices greater than 4000 pesos.
+db.productos.updateMany({price: {$gt: 4000}}, {$set: {stock: 0}})
+
+// Delete the products with a price less than 1000 pesos.
+db.productos.deleteMany({price: {$lt: 1000}})
